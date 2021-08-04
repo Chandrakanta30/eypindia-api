@@ -28,6 +28,7 @@ class CartController extends Controller
 
     public function cartdetails(){
         $oldCart = Session::get('cart');
+        $user_id = auth('api')->id();
         $cart = Cart::where('user_id', $user_id)->with(['product','user'])->get();
 
         return json_encode(['code'=>200,'cart_items'=>$cart]);
