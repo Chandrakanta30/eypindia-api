@@ -15,8 +15,7 @@ class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $user = User::where('phone', $request->mobile)
-            ->orWhere('email', $request->email)
+        $user = User::where('email', $request->email)
             ->first();
 
         if (!$user) {
@@ -24,7 +23,6 @@ class AuthController extends Controller
             $user->name = $request->name;
             $user->email = $request->email;
             $user->password = bcrypt($request->password);
-            $user->phone = $request->mobile;
             if ($request->has('avatar') && $request->avatar != 'undefined') {
                 $user->photo = handleBase64Upload($request->avatar, 250, 250);
             } else {
