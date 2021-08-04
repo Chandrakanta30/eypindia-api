@@ -45,6 +45,7 @@ class OrderController extends Controller
 
     }
     public function orderslist(){
+        $user_id = auth('api')->id();
         $order = Order::where('user_id',$user_id)->get();
         return json_encode(['code'=>200,'orderslist'=>$order]);
     }
