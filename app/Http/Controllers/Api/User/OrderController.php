@@ -39,7 +39,7 @@ class OrderController extends Controller
         $order['currency_sign']=$request->currency_sign;
         $order['currency_value']=1;
         $order->save();
-        Cart::delete();
+        Cart::where('user_id', $user_id)->delete();
         return json_encode(['code'=>200,'responce'=>'Prroduct added to the store successfully']);
         
 
