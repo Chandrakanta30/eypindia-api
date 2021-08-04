@@ -15,7 +15,9 @@ class AddressController extends Controller
      */
     public function index()
     {
-        $addresslist=Address::get();
+        $user_id = auth('api')->id();
+        $addresslist=Address::where('user_id',$user_id)->get();
+        
         return json_encode(['code'=>200,'address'=>$addresslist]);
     }
 
@@ -37,8 +39,9 @@ class AddressController extends Controller
      */
     public function store(Request $request)
     {
+        $user_id = auth('api')->id();
         $newaddress=new Address();
-        $newaddress->user_id=1;
+        $newaddress->user_id=$user_id;
         $newaddress->address_name=$request->address_name;
         $newaddress->address_line1=$request->address_line1;
         $newaddress->address_line2=$request->address_line2;
@@ -83,8 +86,9 @@ class AddressController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user_id = auth('api')->id();
         $newaddress=Address::find($id);
-        $newaddress->user_id=1;
+        $newaddress->user_id=$user_id;
         $newaddress->address_name=$request->address_name;
         $newaddress->address_line1=$request->address_line1;
         $newaddress->address_line2=$request->address_line2;

@@ -12,7 +12,8 @@ class OrderController extends Controller
     public function placeOrder(Request $request){
         $cart = Cart::with(['product','user'])->get();
         $order = new Order;
-        $order['user_id'] = $request->user_id;
+        $user_id = auth('api')->id();
+        $order['user_id'] = $user_id;
         $order['cart'] = utf8_encode(bzcompress(serialize($cart), 9)); 
         $order['totalQty'] = $request->totalQty;
         $order['pay_amount'] = round($request->total) + $request->shipping_cost + $request->packing_cost;
@@ -44,7 +45,7 @@ class OrderController extends Controller
 
     }
     public function orderslist(){
-        $order = Order::get();
+        $order = Order::where('user_id',$user_id)->get();
         return json_encode(['code'=>200,'orderslist'=>$order]);
     }
 

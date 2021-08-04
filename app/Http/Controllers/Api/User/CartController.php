@@ -16,7 +16,9 @@ class CartController extends Controller
     public function store(Request $request){
        
         $cart = new Cart();
-        $cart->user_id=1;
+        $user_id = auth('api')->id();
+
+        $cart->user_id= $user_id;
         $cart->product_id=$request->product_id;
         $cart->variation_id=$request->variation_id;
         $cart->quantity=$request->quantity;
@@ -26,7 +28,7 @@ class CartController extends Controller
 
     public function cartdetails(){
         $oldCart = Session::get('cart');
-        $cart = Cart::with(['product','user'])->get();
+        $cart = Cart::where('user_id', $user_id)->with(['product','user'])->get();
 
         return json_encode(['code'=>200,'cart_items'=>$cart]);
         
