@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use App\Models\usertree;
 class AuthController extends Controller
 {
     public function register(Request $request)
@@ -36,6 +37,15 @@ class AuthController extends Controller
                 $user->fcm_token = $request->fcm_token;
             }
             $user->save();
+            $usertree=new usertree();
+            $usertree->user_id=$user->id;
+            $usertree->save();
+            $referance_Details=$this->getNodeWithUser($request->referance_user_id);
+            
+            $referdetails=explode(",",$referance_Details);
+            $node=usertree::where('user_id','=',$referdetails[0])->update([$referdetails[1] => $user->id]);
+
+
             return response()->json(['code' => 200, 'message' => 'Registration successful']);
         } else {
             return response()->json(['code' => 401, 'message' => 'Data already exists']);
@@ -94,5 +104,77 @@ class AuthController extends Controller
             'user_details' => auth('api')->user(),
             'code' => 200
         ]);
+    }
+
+    public function getNodeWithUser($user_id){
+        $userids=explode(",",$user_id);
+        $childelements='';
+        foreach ($userids as $key => $uid) {
+           $userdetails=usertree::where('user_id','=',$uid)->first();
+           if(is_null($userdetails->p1)){
+            return $userdetails->user_id.",p1";
+           }else{
+            $childelements=$childelements.",".$userdetails->p1;
+           }
+           if(is_null($userdetails->p2)){
+            return $userdetails->user_id.",p2";
+           }else{
+            $childelements=$childelements.",".$userdetails->p2;
+           }
+           if(is_null($userdetails->p3)){
+            return $userdetails->user_id.",p3";
+           }else{
+            $childelements=$childelements.",".$userdetails->p3;
+           }
+           if(is_null($userdetails->p4)){
+            return $userdetails->user_id.",p4";
+           }else{
+            $childelements=$childelements.",".$userdetails->p4;
+           }
+           if(is_null($userdetails->p5)){
+            return $userdetails->user_id.",p5";
+           }else{
+            $childelements=$childelements.",".$userdetails->p5;
+           }
+
+
+           if(is_null($userdetails->p6)){
+            return $userdetails->user_id.",p6";
+           }else{
+            $childelements=$childelements.",".$userdetails->p6;
+           }
+
+
+           if(is_null($userdetails->p7)){
+            return $userdetails->user_id.",p7";
+           }else{
+            $childelements=$childelements.",".$userdetails->p7;
+           }
+
+
+           if(is_null($userdetails->p8)){
+            return $userdetails->user_id.",p8";
+           }else{
+            $childelements=$childelements.",".$userdetails->p8;
+           }
+
+
+           if(is_null($userdetails->p9)){
+            return $userdetails->user_id.",p9";
+           }else{
+            $childelements=$childelements.",".$userdetails->p9;
+           }
+
+
+           if(is_null($userdetails->p10)){
+            return $userdetails->user_id.",p10";
+           }else{
+            $childelements=$childelements.",".$userdetails->p10;
+           }
+           $this->getNodeWithUser($childelements);
+
+           
+        }
+
     }
 }
