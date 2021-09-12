@@ -15,6 +15,8 @@ use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\User\OrderController;
 use App\Http\Controllers\Api\User\AddressController;
 use App\Http\Controllers\Api\User\SmartShopController;
+use App\Http\Controllers\Api\User\SchemeController;
+
 
 use App\Http\Controllers\Api\Vendor\AuthController as VendorAuth;
 use App\Http\Controllers\Api\Vendor\InvoiceController;
@@ -49,6 +51,9 @@ Route::get('/dashboard', [DashboardController::class, 'index']);
 Route::get('/smartshops', [SmartShopController::class, 'index']);
 Route::post('/checkreferal', [TeamController::class, 'checkUser']);
 Route::post('/getalldownlineusers', [TeamController::class, 'getdownlineList']);
+Route::post('/add-new-customer', [SchemeController::class, 'store']);
+Route::get('/customers', [SchemeController::class, 'index']);
+Route::get('/payments', [SchemeController::class, 'paymentsList']);
 // Route::get('/dashboard/liquor', [DashboardController::class, 'liquorsList']);
 // Route::get('/dashboard/hookah', [DashboardController::class, 'hookahList']);
 // Route::get('/dashboard/combos', [DashboardController::class, 'combos']);
