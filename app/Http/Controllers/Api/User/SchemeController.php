@@ -85,6 +85,20 @@ class SchemeController extends Controller
             $scheme->marurity_date=$request->marurity_date;
             $scheme->amount=$request->amount;
             $scheme->payment_mode=$request->payment_mode;
+            $ts1 = strtotime($request->start_date);
+            $ts2 = strtotime($request->marurity_date);
+
+            $year1 = date('Y', $ts1);
+            $year2 = date('Y', $ts2);
+
+            $month1 = date('m', $ts1);
+            $month2 = date('m', $ts2);
+
+            $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+            $scheme->roi=$request->roi;
+            $scheme->number_of_months=$diff;
+
+
             $scheme->save();
 
 
