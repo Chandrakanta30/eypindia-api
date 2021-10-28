@@ -26,7 +26,7 @@ class SchemeController extends Controller
      */
     public function index()
     {
-        $allschemes=Scheme::with('user')->where('agent_id',auth('api')->id())->get();
+        $allschemes=Scheme::with('user')->with('payments')->where('agent_id',auth('api')->id())->get();
         return response()->json(['code' => 200,'customers'=>$allschemes ,'message' => 'Registration successful']);
     }
 
@@ -221,9 +221,7 @@ class SchemeController extends Controller
             ->leftJoin('users', 'schemes.customer_id', '=', 'users.id')
             ->where('schemes.agent_id',auth('api')->id())
             ->select('users.name','users.photo','schemes.*','scheme_payments.*')
-
             ->get();
-
         return response()->json(['code' => 200,'payments'=>$allPayments ,'message' => 'Registration successful']);
 
     }

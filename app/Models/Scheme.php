@@ -13,4 +13,7 @@ class Scheme extends Model
         return $this->hasOne('App\Models\User','id','customer_id');
 
     }
+    public function payments(){
+        return $this->hasMany('App\Models\SchemePayment','scheme_id','id')->where('status','=', 'paid');
+    }
 }
