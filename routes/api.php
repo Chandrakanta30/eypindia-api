@@ -53,6 +53,8 @@ Route::post('/checkreferal', [TeamController::class, 'checkUser']);
 Route::post('/getalldownlineusers', [TeamController::class, 'getdownlineList']);
 Route::post('/add-new-customer', [SchemeController::class, 'store']);
 Route::get('/customers', [SchemeController::class, 'index']);
+Route::get('/customers/{id}', [SchemeController::class, 'details']);
+
 Route::get('/payments', [SchemeController::class, 'paymentsList']);
 // Route::get('/dashboard/liquor', [DashboardController::class, 'liquorsList']);
 // Route::get('/dashboard/hookah', [DashboardController::class, 'hookahList']);
