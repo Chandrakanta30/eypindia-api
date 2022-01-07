@@ -26,7 +26,7 @@ class SchemeController extends Controller
      */
     public function index()
     {
-        $allschemes=Scheme::with('user')->with('payments')->where('agent_id',auth('api')->id())->get();
+        $allschemes=Scheme::with('user')->with('agent')->with('payments')->where('agent_id',auth('api')->id())->get();
         return response()->json(['code' => 200,'customers'=>$allschemes ,'message' => 'Registration successful']);
     }
 
@@ -102,6 +102,37 @@ class SchemeController extends Controller
 
 
 
+
+            return response()->json(['code' => 200, 'message' => 'Registration successful']);
+        }else if($request->user_id){
+            $usertree=new usertree();
+            $usertree->user_id=$request->user_id;
+            $usertree->save();
+            $referance_Details=$this->getNodeWithUser(auth('api')->id());
+            
+            $referdetails=explode(",",$referance_Details);
+            $node=usertree::where('user_id','=',$referdetails[0])->update([$referdetails[1] => $request->user_id]);
+            $scheme=new Scheme();
+            $scheme->scheme_name=$request->scheme_name;
+            $scheme->customer_id=$request->user_id;
+            $scheme->agent_id=auth('api')->id();
+            $scheme->scheme_number=$request->scheme_number;
+            $scheme->start_date=$request->start_date;
+            $scheme->marurity_date=$request->marurity_date;
+            $scheme->amount=$request->amount;
+            $scheme->payment_mode=$request->payment_mode;
+            $ts1 = strtotime($request->start_date);
+            $ts2 = strtotime($request->marurity_date);
+            $year1 = date('Y', $ts1);
+            $year2 = date('Y', $ts2);
+            $month1 = date('m', $ts1);
+            $month2 = date('m', $ts2);
+            $diff = (($year2 - $year1) * 12) + ($month2 - $month1);
+            $scheme->roi=$request->roi;
+            $scheme->number_of_months=$diff;
+
+
+            $scheme->save();
 
             return response()->json(['code' => 200, 'message' => 'Registration successful']);
         } else {

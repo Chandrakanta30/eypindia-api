@@ -24,6 +24,8 @@ use App\Http\Controllers\Api\Vendor\OrderController as VendorOrder;
 use App\Http\Controllers\Api\Vendor\ProductController as VendorProduct;
 use App\Http\Controllers\Api\Vendor\ShopController;
 use App\Http\Controllers\Api\User\WishlistController;
+use App\Http\Controllers\Api\User\CustomerController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,6 +41,7 @@ use App\Http\Controllers\Api\User\WishlistController;
 //     return $request->user();
 // });
 Route::get('/categories', [CategoryController::class, 'index']);
+Route::get('/all-customers-list', [CustomerController::class, 'index']);
 
 Route::get('/products', [ProductController::class, 'index']);
 Route::get('/product/{id}', [ProductController::class, 'show']);
@@ -66,6 +69,8 @@ Route::get('/payments', [SchemeController::class, 'paymentsList']);
 // Route::resource('/order', OrderController::class);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/signup', [AuthController::class, 'register']);
+Route::post('/update-agent-id', [AuthController::class, 'updateAgentId']);
+
 Route::get('/userdetails', [AuthController::class, 'userDetails']);
 Route::get('/category/product/{id}', [ProductController::class, 'showCategoryProducts']);
 Route::post('/add-address', [AddressController::class, 'store']);

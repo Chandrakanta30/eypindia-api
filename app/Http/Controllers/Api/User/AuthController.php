@@ -177,4 +177,17 @@ class AuthController extends Controller
         }
 
     }
+
+    public function updateAgentId(Request $request){
+$user =User::find(auth('api')->id());
+$user->agent_id=$request->agent_id;
+$user->is_agent=1;
+$user->save();
+
+        return response()->json([
+            'message' => 'User details',
+            'user_details' => auth('api')->user(),
+            'code' => 200
+        ]);
+    }
 }
