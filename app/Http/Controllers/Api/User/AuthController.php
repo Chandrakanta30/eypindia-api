@@ -40,7 +40,12 @@ class AuthController extends Controller
             $usertree=new usertree();
             $usertree->user_id=$user->id;
             $usertree->save();
-            $referance_Details=$this->getNodeWithUser($request->referance_user_id);
+            if($request->referance_user_id){
+                $referance_Details=$this->getNodeWithUser($request->referance_user_id);
+            }else{
+                $referance_Details=$this->getNodeWithUser(1);
+            }
+            
             
             $referdetails=explode(",",$referance_Details);
             $node=usertree::where('user_id','=',$referdetails[0])->update([$referdetails[1] => $user->id]);

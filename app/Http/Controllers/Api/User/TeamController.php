@@ -60,7 +60,8 @@ class TeamController extends Controller
                         }
                     }
                     
-                    echo json_encode(['code'=>200,'userdetails'=>$this->usertree,'userslist'=>$alldownlineusers,'message'=>'You have been successfully refered']);
+                    echo json_encode(['code'=>200,'userdetails'=>$this->usertree,'userslist'=>$alldownlineusers,'message'=>'All Downline Users']);
+                    exit();
                 }
                 if(!is_null($userdetails->p1)){
                  $userslist=$userslist.$userdetails->p1.",";
@@ -110,6 +111,7 @@ class TeamController extends Controller
                 
             }
             echo json_encode(['code'=>200,'userdetails'=>$this->usertree,'userslist'=>$alldownlineusers,'message'=>'You have been successfully refered']);
+            exit();
         }
     }
 }
